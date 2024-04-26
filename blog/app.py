@@ -1,16 +1,18 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask import request
 from flask import g
 from time import time
 from werkzeug.exceptions import BadRequest
-
+from blog.views.users import users_app
+from blog.views.articles import articles_app
 
 app = Flask(__name__)
+app.register_blueprint(users_app, url_prefix="/users")
 
 
 @app.route("/")
 def index():
-    return "Hello web!"
+    return render_template("index.html")
 
 
 @app.route("/greet/<name>/")
@@ -80,3 +82,6 @@ def handle_zero_division_error(error):
     print(error) # prints str version of error: 'division by zero'
     app.logger.exception("Here's traceback for zero division error")
     return "Never divide by zero!", 400
+
+
+app.register_blueprint(articles_app, url_prefix="/articles")
