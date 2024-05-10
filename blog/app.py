@@ -10,6 +10,7 @@ from blog.models.database import db
 import os
 from flask_migrate import Migrate
 from blog.security import flask_bcrypt
+from blog.views.authors import authors_app
 
 
 app = Flask(__name__)
@@ -128,6 +129,7 @@ migrate = Migrate(app, db)
 cfg_name = os.environ.get("DevConfig") or "ProductionConfig"
 app.config.from_object(f"blog.configs.{cfg_name}")
 app.register_blueprint(articles_app, url_prefix="/articles")
+app.register_blueprint(authors_app, url_prefix="/authors")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/blog.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "abcdefg123456"
