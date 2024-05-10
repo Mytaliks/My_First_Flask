@@ -7,6 +7,9 @@ from blog.views.auth import login_manager, auth_app
 from blog.views.users import users_app
 from blog.views.articles import articles_app
 from blog.models.database import db
+import os
+from flask_migrate import Migrate
+
 
 app = Flask(__name__)
 app.register_blueprint(users_app, url_prefix="/users")
@@ -114,6 +117,9 @@ def create_users():
     print("done! created users:", admin, james)
 
 
+migrate = Migrate(app, db)
+cfg_name = os.environ.get("DevConfig") or "ProductionConfig"
+app.config.from_object(f"blog.configs.{cfg_name}")
 app.register_blueprint(articles_app, url_prefix="/articles")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/blog.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False

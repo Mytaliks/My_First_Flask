@@ -3,6 +3,9 @@ from blog.models.database import db
 from flask_login import UserMixin
 
 
+email = Column(String(255), nullable=False, default="", server_default="")
+
+
 class User(db.Model, UserMixin):
     id = Column(Integer, primary_key=True)
     username = Column(String(80), unique=True, nullable=False)
