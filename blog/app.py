@@ -12,6 +12,7 @@ from flask_migrate import Migrate
 from blog.security import flask_bcrypt
 from blog.views.authors import authors_app
 from blog.admin import admin
+from blog.api import init_api
 
 
 
@@ -150,5 +151,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "abcdefg123456"
 app.register_blueprint(auth_app, url_prefix="/auth")
 admin.init_app(app)
+api = init_api(app)
 login_manager.init_app(app)
 db.init_app(app)
